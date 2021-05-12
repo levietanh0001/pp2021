@@ -1,8 +1,8 @@
     # arrays containing info
 students_id_list = []
 students_info_list = []
-courses = []
-courses_id = []
+courses_list = []
+courses_id_list = []
 marks = []
 
 def NumOfStds():
@@ -39,8 +39,8 @@ def CreateCourseDict(course_id, name):
         "id": course_id,
         "name": name
     }
-    courses.append(aboutCourse)
-    courses_id.append(course_id)
+    courses_list.append(aboutCourse)
+    courses_id_list.append(course_id)
 
     # create a dictionary for marks
 def CreateMarkDict(student_id, course_id, value):
@@ -84,7 +84,7 @@ def GetCourseInfo():
             print("Course ID cannot be empty!")
         else:
             break
-    if cid in courses_id:
+    if cid in courses_id_list:
         print("Course ID already exists!")
         exit()
     else:
@@ -112,7 +112,7 @@ def GetCourseMarks(cid):
 def GetMarks():
     while True:
         cid = input("Enter Course ID for which you want to input marks: ")
-        if cid in courses_id:
+        if cid in courses_id_list:
             if len(marks) > 0:
                 marked = False
                 for m in marks:
@@ -134,7 +134,7 @@ def GetMarks():
 
 def PrintCourses():
     print("List of all Courses:")
-    for c in courses:
+    for c in courses_list:
         print("%s %s" % (c['id'], c['name']))
 
     print()
@@ -165,7 +165,7 @@ def PrintMarks():
             print("Course ID cannot be empty!")
         else:
             break
-    if cid in courses_id:
+    if cid in courses_id_list:
         PrintCourseMarks(cid)
     else:
         print("No course exists for the input ID")
@@ -184,7 +184,7 @@ def main():
             for i in range(num_of_stds):
                 print(f"-Student {i + 1}-")
                 StudentInfoQuery()
-            while len(courses) == 0:
+            while len(courses_list) == 0:
                 print("1 = Input courses' details")
                 print("2 = Exit")
                 myChoice2 = int(input("Enter your choice: "))
@@ -225,7 +225,7 @@ def main():
         else:
             print("Invalid choice!")
             exit()
-    while len(marks) < len(students_info_list) * len(courses):
+    while len(marks) < len(students_info_list) * len(courses_list):
         print("1 = Input mark for a course")
         print("2 = Print students")
         print("3 = Print courses")
