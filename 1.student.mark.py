@@ -53,7 +53,7 @@ def CreateMarkDict(student_id, course_id, value):
 
 def StudentInfoQuery():
     while True:
-        sid = input("-> Enter student ID: ")
+        sid = input("Enter student ID: ")
         if len(sid) == 0 or sid is None:
             print("Negative student ID is not allowed!")
         else:
@@ -63,79 +63,79 @@ def StudentInfoQuery():
         exit()
     else:
         while True:
-            name = input("-> Enter student name: ")
+            name = input("Enter student name: ")
             if len(name) == 0 or name is None:
-                print("***Error: Student name cannot be empty***")
+                print("Student name cannot be empty!")
             else:
                 break
         while True:
-            dob = input("-> Enter student date of birth: ")
+            dob = input("Enter student date of birth: ")
             if len(dob) == 0 or dob is None:
-                print("***Error: Student date of birth cannot be empty***")
+                print("Student date of birth cannot be empty!")
             else:
                 break
-        print(f"Student successfully added: {name}")
+        print(f"Student {name} successfully added!")
         CreateStudentDict(sid, name, dob)
 
 def GetCourseInfo():
     while True:
-        cid = input("-> Enter course ID: ")
+        cid = input("Enter course ID: ")
         if len(cid) == 0 or cid is None:
-            print("***Error: Course ID cannot be empty***")
+            print("Course ID cannot be empty!")
         else:
             break
     if cid in courses_id:
-        print("***Error: Course ID already exists***")
+        print("Course ID already exists!")
         exit()
     else:
         while True:
-            name = input("-> Enter course name: ")
+            name = input("Enter course name: ")
             if len(name) == 0 or name is None:
-                print("***Error: Course name cannot be empty***")
+                print("Course name cannot be empty")
             else:
                 break
         print(f"Successfully added course: {name}")
-        course(cid, name)
+        CreateCourseDict(cid, name)
 
-def input_course_marks(cid):
+def GetCourseMarks(cid):
     for s in students_info_list:
         sid = s['id']
         while True:
-            value = float(input(f"-> Enter marks for {s['name']}: "))
+            value = float(input(f"Enter marks for {s['name']}: "))
             if value < 0:
-                print("***Error: Marks must be non-negative***")
+                print("Marks must be non-negative")
             else:
                 break
-        mark(sid, cid, value)
+        CreateMarkDict(sid, cid, value)
 
 
 def GetMarks():
     while True:
-        cid = input("-> Enter Course ID for which you want to input marks: ")
+        cid = input("Enter Course ID for which you want to input marks: ")
         if cid in courses_id:
             if len(marks) > 0:
                 marked = False
                 for m in marks:
                     if m['cid'] == cid:
-                        print("***Error: You have already input marks for this course***")
+                        print("You have already input marks for this course")
                         marked = True
                         break
                 if not marked:
-                    input_course_marks(cid)
+                    GetCourseMarks(cid)
             else:
-                input_course_marks(cid)
+                GetCourseMarks(cid)
             break
         elif len(cid) == 0 or cid is None:
-            print("***Error: Course ID cannot be empty***")
+            print("Course ID cannot be empty!")
         else:
-            print("***Error: No course found for the input ID***")
+            print("No course found for the input ID")
             return -1
 
 
 def PrintCourses():
     print("List of all Courses:")
     for c in courses:
-        print("\t\t[%s]   %-20s" % (c['id'], c['name']))
+        print("%s %s" % (c['id'], c['name']))
 
     print()
 
@@ -143,7 +143,7 @@ def PrintCourses():
 def PrintStudents():
     print("All Students in class:")
     for s in students_info_list:
-        print("\t\t[%s]    %-20s%s" % (s['id'], s['name'], s['dob']))
+        print("%s %s %s" % (s['id'], s['name'], s['dob']))
 
     print()
 
@@ -154,21 +154,21 @@ def PrintCourseMarks(cid):
             sid = m['sid']
             for s in students_info_list:
                 if s['id'] == sid:
-                    print(f"\t\t[%s]    %-20s%s" % (s['id'], s['name'], m['value']))
+                    print("%s %s %s" % (s['id'], s['name'], m['value']))
 
 
 # Ask the user for the course ID whose mark should be listed, then invoke the PrintCourseMarks() function
 def PrintMarks():
     while True:
-        cid = input("-> Enter the course ID for which you want to see marks: ")
+        cid = input("Enter the course ID for which you want to see marks: ")
         if len(cid) == 0 or cid is None:
-            print("***Error: Course ID cannot be empty***")
+            print("Course ID cannot be empty!")
         else:
             break
     if cid in courses_id:
         PrintCourseMarks(cid)
     else:
-        print("***Error: No course exists for the input ID***")
+        print("No course exists for the input ID")
         return -1
 
 
@@ -239,16 +239,15 @@ def main():
         elif myChoice3 == 3:
             PrintCourses()
         elif myChoice3 == 4:
-            print("Exiting!")
             exit()
         else:
-            print("***Error: invalid choice***")
+            print("Invalid choice!")
     while True:
-        print("[1] List students")
-        print("[2] List courses")
-        print("[3] Show marks of a course")
-        print("[4] Cancel")
-        myChoice3 = int(input("Enter the corresponding number: "))
+        print("1 = Print students")
+        print("2 = Print courses")
+        print("3 = Print marks of a course")
+        print("4 = Exit")
+        myChoice3 = int(input("Your choice: "))
         if myChoice3 == 1:
             PrintStudents()
         elif myChoice3 == 2:
@@ -256,10 +255,10 @@ def main():
         elif myChoice3 == 3:
             PrintMarks()
         elif myChoice3 == 4:
-            print("Exiting!")
+            print("Exit")
             exit()
         else:
-            print("***Error: invalid choice***")
+            print("Invalid choice!")
 
-
+    # invoke main function
 main()
