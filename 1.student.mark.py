@@ -1,67 +1,65 @@
-students_id = []
-students_info = []
+    # arrays containing info
+students_id_list = []
+students_info_list = []
 courses = []
 courses_id = []
 marks = []
 
-def n_students():
+def NumOfStds():
     while True:
-        no_students = int(input("-> Enter the total number of students: "))
-        if (no_students < 0):
-            print("***Error: number of students cannot be negative***")
+        num_of_students = int(input("Total number of students: "))
+        if (num_of_students < 0):
+            print("Negative number of students is not valid!")
         else:
             break
-    return no_students
+    return num_of_students
 
-def n_courses():
-    while True:
-        no_courses = int(input("-> Enter total number of courses: "))
-        if no_courses < 0:
-            print("***Error: Number of courses cannot be negative***")
-        else:
-            break
-    return no_courses
-
-
-# Create a dictionary for storing student info
-def student_dict(stu_id, name, dob):
-    this_student = {
-        "id": stu_id,
+    # dictionary for student info
+def CreateStudentDict(student_id, name, dob):
+    aboutStudent = {
+        "id": student_id,
         "name": name,
         "dob": dob
     }
-    students_info.append(this_student)
-    students_id.append(stu_id)
+    students_info_list.append(aboutStudent)
+    students_id_list.append(student_id)
 
-# Create a dictionary for storing course info
-def course(c_id, name):
-    this_course = {
-        "id": c_id,
+def NumOfCourses():
+    while True:
+        num_of_courses = int(input("Total number of courses: "))
+        if num_of_courses < 0:
+            print("Negative number of courses is not valid")
+        else:
+            break
+    return num_of_courses
+
+    # create a dictionary for course info
+def CreateCourseDict(course_id, name):
+    aboutCourse = {
+        "id": course_id,
         "name": name
     }
-    courses.append(this_course)
-    courses_id.append(c_id)
+    courses.append(aboutCourse)
+    courses_id.append(course_id)
 
-
-# Create a dictionary holding a mark entity's information and put it into list marks[]
-# A mark entity will have a specified student ID, course ID and its value
-def mark(stu_id, c_id, value):
-    this_mark = {
-        "sid": stu_id,
-        "cid": c_id,
+    # create a dictionary for marks
+def CreateMarkDict(student_id, course_id, value):
+    aboutMark = {
+        "sid": student_id,
+        "cid": course_id,
         "value": value
     }
-    marks.append(this_mark)
+    marks.append(aboutMark)
 
-def input_student_info():
+def StudentInfoQuery():
     while True:
         sid = input("-> Enter student ID: ")
         if len(sid) == 0 or sid is None:
-            print("***Error: Student ID cannot be empty***")
+            print("Negative student ID is not allowed!")
         else:
             break
-    if sid in students_id:
-        print("***Error: Student ID already exists***")
+    if sid in students_id_list:
+        print("Student ID already exists")
         exit()
     else:
         while True:
@@ -77,7 +75,7 @@ def input_student_info():
             else:
                 break
         print(f"Student successfully added: {name}")
-        student_dict(sid, name, dob)
+        CreateStudentDict(sid, name, dob)
 
 def input_course_info():
     while True:
@@ -100,7 +98,7 @@ def input_course_info():
         course(cid, name)
 
 def input_course_marks(cid):
-    for s in students_info:
+    for s in students_info_list:
         sid = s['id']
         while True:
             value = float(input(f"-> Enter marks for {s['name']}: "))
@@ -144,7 +142,7 @@ def list_courses():
 
 def list_students():
     print("All Students in class:")
-    for s in students_info:
+    for s in students_info_list:
         print("\t\t[%s]    %-20s%s" % (s['id'], s['name'], s['dob']))
 
     print()
@@ -154,7 +152,7 @@ def list_course_marks(cid):
     for m in marks:
         if m['cid'] == cid:
             sid = m['sid']
-            for s in students_info:
+            for s in students_info_list:
                 if s['id'] == sid:
                     print(f"\t\t[%s]    %-20s%s" % (s['id'], s['name'], m['value']))
 
@@ -175,24 +173,21 @@ def list_marks():
 
 
 def main():
-    print("Loading Student Mark manager...")
-    print("Choose your option:")
-    print("[1] Input number of students and their information")
-    print("[2] Input number of courses and their detail")
-    print("[3] Cancel")
+    print("1 = Input students' details")
+    print("2 = Input courses' details")
+    print("3 = Exit")
     print()
-    choice1 = int(input("Enter the corresponding number: "))
+    myChoice = int(input("Enter your choice: "))
     while True:
-        if choice1 == 1:
-            no_students = n_students()
-            for i in range(no_students):
-                print(f"Student #{i + 1}:")
-                input_student_info()
+        if myChoice == 1:
+            num_of_stds = NumOfStds()
+            for i in range(num_of_stds):
+                print(f"-Student {i + 1}-")
+                StudentInfoQuery()
             while len(courses) == 0:
-                print("[1] Input number of courses and their information")
+                print("[1] Input courses' details")
                 print("[2] Cancel")
-                choice2 = int(
-                    input("Select your option by entering the digit: "))
+                choice2 = int(input("Select your option by entering the digit: "))
                 if choice2 == 1:
                     no_courses = n_courses()
                     for i in range(no_courses):
@@ -205,21 +200,21 @@ def main():
                 else:
                     print("***Error: Invalid choice***")
             break
-        elif choice1 == 2:
+        elif myChoice == 2:
             no_courses = n_courses()
             for i in range(no_courses):
                 print(f"Course #{i + 1}:")
                 input_course_info()
-            while len(students_info) == 0:
+            while len(students_info_list) == 0:
                 print("[1] Input number of students and their information: ")
                 print("[2] Cancel")
                 choice2 = int(
                     input("Select your option by entering the digit: "))
                 if choice2 == 1:
-                    no_students = n_students()
-                    for i in range(no_students):
+                    num_of_stds = NumOfStds()
+                    for i in range(num_of_stds):
                         print(f"Student #{i + 1}:")
-                        input_student_info()
+                        StudentInfoQuery()
                     break
                 elif choice2 == 2:
                     print("Exiting!")
@@ -228,13 +223,13 @@ def main():
                     print("***Error: Invalid choice***")
                     break
             break
-        elif choice1 == 3:
+        elif myChoice == 3:
             print("Exiting!")
             exit()
         else:
             print("***Error: Invalid choice***")
             exit()
-    while len(marks) < len(students_info) * len(courses):
+    while len(marks) < len(students_info_list) * len(courses):
         print("[1] Input mark for a course")
         print("[2] List students")
         print("[3] List courses")
