@@ -77,7 +77,7 @@ def StudentInfoQuery():
         print(f"Student successfully added: {name}")
         CreateStudentDict(sid, name, dob)
 
-def input_course_info():
+def GetCourseInfo():
     while True:
         cid = input("-> Enter course ID: ")
         if len(cid) == 0 or cid is None:
@@ -109,7 +109,7 @@ def input_course_marks(cid):
         mark(sid, cid, value)
 
 
-def input_marks():
+def GetMarks():
     while True:
         cid = input("-> Enter Course ID for which you want to input marks: ")
         if cid in courses_id:
@@ -132,7 +132,7 @@ def input_marks():
             return -1
 
 
-def list_courses():
+def PrintCourses():
     print("List of all Courses:")
     for c in courses:
         print("\t\t[%s]   %-20s" % (c['id'], c['name']))
@@ -140,7 +140,7 @@ def list_courses():
     print()
 
 
-def list_students():
+def PrintStudents():
     print("All Students in class:")
     for s in students_info_list:
         print("\t\t[%s]    %-20s%s" % (s['id'], s['name'], s['dob']))
@@ -148,7 +148,7 @@ def list_students():
     print()
 
 
-def list_course_marks(cid):
+def PrintCourseMarks(cid):
     for m in marks:
         if m['cid'] == cid:
             sid = m['sid']
@@ -157,8 +157,8 @@ def list_course_marks(cid):
                     print(f"\t\t[%s]    %-20s%s" % (s['id'], s['name'], m['value']))
 
 
-# Ask the user for the course ID whose mark should be listed, then invoke the list_course_marks() function
-def list_marks():
+# Ask the user for the course ID whose mark should be listed, then invoke the PrintCourseMarks() function
+def PrintMarks():
     while True:
         cid = input("-> Enter the course ID for which you want to see marks: ")
         if len(cid) == 0 or cid is None:
@@ -166,7 +166,7 @@ def list_marks():
         else:
             break
     if cid in courses_id:
-        list_course_marks(cid)
+        PrintCourseMarks(cid)
     else:
         print("***Error: No course exists for the input ID***")
         return -1
@@ -185,64 +185,60 @@ def main():
                 print(f"-Student {i + 1}-")
                 StudentInfoQuery()
             while len(courses) == 0:
-                print("[1] Input courses' details")
-                print("[2] Cancel")
-                choice2 = int(input("Select your option by entering the digit: "))
-                if choice2 == 1:
-                    no_courses = n_courses()
-                    for i in range(no_courses):
-                        print(f"Course #{i + 1}:")
-                        input_course_info()
+                print("1 = Input courses' details")
+                print("2 = Exit")
+                myChoice2 = int(input("Enter your choice: "))
+                if myChoice2 == 1:
+                    num_of_courses = NumOfCourses()
+                    for i in range(num_of_courses):
+                        print(f"Course {i + 1}:")
+                        GetCourseInfo()
                     break
-                elif choice2 == 2:
-                    print("Exiting!")
+                elif myChoice2 == 2:
                     exit()
                 else:
-                    print("***Error: Invalid choice***")
+                    print("Invalid choice!")
             break
         elif myChoice == 2:
-            no_courses = n_courses()
-            for i in range(no_courses):
-                print(f"Course #{i + 1}:")
-                input_course_info()
+            num_of_courses = NumOfCourses()
+            for i in range(num_of_courses):
+                print(f"Course {i + 1}:")
+                GetCourseInfo()
             while len(students_info_list) == 0:
-                print("[1] Input number of students and their information: ")
-                print("[2] Cancel")
-                choice2 = int(
-                    input("Select your option by entering the digit: "))
-                if choice2 == 1:
+                print("1 = Input students' details: ")
+                print("2 = Exit")
+                myChoice2 = int(input("Enter your choice: "))
+                if myChoice2 == 1:
                     num_of_stds = NumOfStds()
                     for i in range(num_of_stds):
-                        print(f"Student #{i + 1}:")
+                        print(f"Student {i + 1}:")
                         StudentInfoQuery()
                     break
-                elif choice2 == 2:
-                    print("Exiting!")
+                elif myChoice2 == 2:
                     exit()
                 else:
-                    print("***Error: Invalid choice***")
+                    print("Invalid choice!")
                     break
             break
         elif myChoice == 3:
-            print("Exiting!")
             exit()
         else:
-            print("***Error: Invalid choice***")
+            print("Invalid choice!")
             exit()
     while len(marks) < len(students_info_list) * len(courses):
-        print("[1] Input mark for a course")
-        print("[2] List students")
-        print("[3] List courses")
-        print("[4] Cancel")
+        print("1 = Input mark for a course")
+        print("2 = Print students")
+        print("3 = Print courses")
+        print("4 = Exit")
         print()
-        choice3 = int(input("Select your option by entering the digit: "))
-        if choice3 == 1:
-            input_marks()
-        elif choice3 == 2:
-            list_students()
-        elif choice3 == 3:
-            list_courses()
-        elif choice3 == 4:
+        myChoice3 = int(input("Enter your choice: "))
+        if myChoice3 == 1:
+            GetMarks()
+        elif myChoice3 == 2:
+            PrintStudents()
+        elif myChoice3 == 3:
+            PrintCourses()
+        elif myChoice3 == 4:
             print("Exiting!")
             exit()
         else:
@@ -252,14 +248,14 @@ def main():
         print("[2] List courses")
         print("[3] Show marks of a course")
         print("[4] Cancel")
-        choice3 = int(input("Enter the corresponding number: "))
-        if choice3 == 1:
-            list_students()
-        elif choice3 == 2:
-            list_courses()
-        elif choice3 == 3:
-            list_marks()
-        elif choice3 == 4:
+        myChoice3 = int(input("Enter the corresponding number: "))
+        if myChoice3 == 1:
+            PrintStudents()
+        elif myChoice3 == 2:
+            PrintCourses()
+        elif myChoice3 == 3:
+            PrintMarks()
+        elif myChoice3 == 4:
             print("Exiting!")
             exit()
         else:
