@@ -1,275 +1,269 @@
-# Creating a class of student with the constructors for SMM Student Mark Management.
-class Student:
-    def __init__(self, SMM, s_id, name, dob):
-        self.__s_id = s_id
-        self.__name = name
-        self.__dob = dob
-        SMM.students_info.append(self)
-        SMM.students_id.append(self.__s_id)
+# Creating a class of student with the constructors for StudentMarkManagementSystem Student Mark Management.
 
-    def get_s_id(self):
-        return self.__s_id
+class InitStudent:
+    def __init__(self, StudentMarkManagementSystem, student_id, name, date_of_birth):
+        self.stdID = student_id
+        self.stdName = name
+        self.dob = date_of_birth
+        StudentMarkManagementSystem.students_info_list.append(self)
+        StudentMarkManagementSystem.students_id_list.append(self.stdID)
 
-    def get_name(self):
-        return self.__name
+    def getStudentID(self):
+        return self.stdID
 
-    def get_dob(self):
-        return self.__dob
+    def getName(self):
+        return self.stdName
 
-# Creating a class of Course with the constructors for SMM Student Mark Management.
-class Course:
-    def __init__(self, SMM, c_id, name):
-        self.__c_id = c_id
-        self.__name = name
-        SMM.courses.append(self)
-        SMM.courses_id.append(self.__c_id)
+    def getDOB(self):
+        return self.dob
 
-    def get_c_id(self):
-        return self.__c_id
+# Creating a class of Course with the constructors for StudentMarkManagementSystem Student Mark Management.
+class InitCourse:
+    def __init__(self, StudentMarkManagementSystem, course_id, name):
+        self.courseID = course_id
+        self.stdName = name
+        StudentMarkManagementSystem.courses.append(self)
+        StudentMarkManagementSystem.courses_id.append(self.courseID)
 
-    def get_name(self):
-        return self.__name
+    def getCourseID(self):
+        return self.courseID
 
-# Creating a class of Marks with the constructors for SMM Student Mark Management.
-class Marks:
-    def __init__(self, SMM, s_id, c_id, val):
-        self.__s_id = s_id
-        self.__c_id = c_id
-        self.__val = val
-        SMM.marks.append(self)
+    def getName(self):
+        return self.stdName
 
-    def get_s_id(self):
-        return self.__s_id
+# Creating a class of Marks with the constructors for StudentMarkManagementSystem Student Mark Management.
+class InitMark:
+    def __init__(self, StudentMarkManagementSystem, student_id, course_id, student_mark):
+        self.stdID = student_id
+        self.courseID = course_id
+        self.stdMark = student_mark
+        StudentMarkManagementSystem.marks_list.append(self)
 
-    def get_c_id(self):
-        return self.__c_id
+    def getStudentID(self):
+        return self.stdID
 
-    def get_value(self):
-        return self.__val
+    def getCourseID(self):
+        return self.courseID
 
-class SMM:
+    def getStudentMark(self):
+        return self.stdMark
 
-    students_id = []
-    students_info = []
-    courses = []
+class StudentMarkManagementSystem:
+
+    students_id_list = []
+    students_info_list = []
+    courses_list = []
     courses_id = []
-    marks = []
+    marks_list = []
 
-    no_students = None
-    no_courses = None
+    num_of_students = None
+    num_of_courses = None
 
-    def input_no_students(self):
-        no_students = int(input("-> Enter the number of students: "))
-        self.no_students = no_students
+    def getStudents(self):
+        num_of_students = int(input("Enter the number of students: "))
+        self.num_of_students = num_of_students
 
-    def input_no_courses(self):
-        no_courses = int(input("-> Enter the number of courses: "))
-        self.no_courses = no_courses
+    def getCourses(self):
+        num_of_courses = int(input("Enter the number of courses: "))
+        self.num_of_courses = num_of_courses
 
-    def input_student_info(self):
+    def getStudentInfo(self):
         while True:
-            s_id = input("-> Enter student ID: ")
-            if s_id is None:
-                print("***Error: Student ID cannot be empty***")
+            student_id = input("Enter student ID: ")
+            if student_id is None:
+                print("Student ID cannot be empty")
             else:
                 break
-        if s_id in self.students_id:
-            print("***Error: Student ID existed***")
+        if student_id in self.students_id_list:
+            print("Student ID already exists")
             exit()
         else:
             while True:
-                name = input("-> Enter student name: ")
+                name = input("Enter student name: ")
                 if name is None:
-                    print("***Error: Student name cannot be empty***")
+                    print("Student name cannot be empty")
                 else:
                     break
             while True:
-                dob = input("-> Enter student date of birth: ")
-                if dob is None:
-                    print("***Error: Student date of birth cannot be empty***")
+                date_of_birth = input("Enter student date of birth: ")
+                if date_of_birth is None:
+                    print("Student date of birth cannot be empty")
                 else:
                     break
-            print(f"Successfully added student: {name}")
-            Student(self, s_id, name, dob)
+            print(f"Added student {name}!")
+            InitStudent(self, student_id, name, date_of_birth)
 
-    def input_course_info(self):
+    def getCourseInfo(self):
         while True:
-            c_id = input("-> Enter course ID: ")
-            if c_id is None:
-                print("***Error: Course ID cannot be empty***")
+            course_id = input("Enter course ID: ")
+            if course_id is None:
+                print("Course ID cannot be empty")
             else:
                 break
-        if c_id in self.courses_id:
-            print("***Error: Course ID existed***")
+        if course_id in self.courses_id:
+            print("Course ID already exists")
             exit()
         else:
             while True:
-                name = input("-> Enter course name: ")
+                name = input("Enter course name: ")
                 if name is None:
-                    print("***Error: Course name cannot be empty***")
+                    print("Course name cannot be empty")
                 else:
                     break
             print(f"Successfully added course: {name}")
-            Course(self, c_id, name)
+            InitCourse(self, course_id, name)
 
-    def input_course_mark(self, c_id):
-        for student in self.students_info:
-            s_id = student.get_s_id()
+    def getCourseMarks(self, course_id):
+        for student in self.students_info_list:
+            student_id = student.getStudentID()
 
-            value = float(input(f"-> Enter marks for {student.get_name()}: "))
-            Marks(self, s_id, c_id, value)
+            value = float(input(f"Enter marks for {student.getName()}: "))
+            InitMark(self, student_id, course_id, value)
 
-    def input_mark(self):
+    def getMark(self):
         while True:
-            c_id = input("-> Enter the course ID you want to input mark: ")
-            if c_id in self.courses_id:
-                if len(self.marks) > 0:
+            course_id = input("Enter the course ID you want to input mark: ")
+            if course_id in self.courses_id:
+                if len(self.marks_list) > 0:
                     Marked = False
-                    for mark in self.marks:
-                        if mark.get_c_id() == c_id:
-                            print("***Error: You have already input marks for this course***")
+                    for mark in self.marks_list:
+                        if mark.getCourseID() == course_id:
+                            print("You have already input marks for this course")
                             Marked = True
                             break
                     if not Marked:
-                        self.input_course_mark(c_id)
+                        self.getCourseMarks(course_id)
                 else:
-                    self.input_course_mark(c_id)
+                    self.getCourseMarks(course_id)
                 break
-            elif c_id is None:
-                print("***Error: Course ID cannot be empty***")
+            elif course_id is None:
+                print("Course ID cannot be empty")
             else:
-                print("***Error: There exists no course with that ID***")
+                print("No course with that ID")
                 return -1
 
-    def list_courses(self):
-        print("Showing all courses: ")
-        for course in self.courses:
-            print("\t\t[%s]   %-20s" % (course.get_c_id(), course.get_name()))
+    def printCourses(self):
+        print("Printing all courses: ")
+        for course in self.courses_list:
+            print("%s %s " % (course.getCourseID(), course.getName()))
 
-    def list_students(self):
-        print("Showing all Students in class:")
-        for student in self.students_info:
-            print("\t\t[%s]    %-20s%s" % (student.get_s_id(), student.get_name(), student.get_dob()))
+    def printStudents(self):
+        print("Printing all Students in class:")
+        for student in self.students_info_list:
+            print("%s %s %s" % (student.getStudentID(), student.getName(), student.getDOB()))
 
-    def list_course_marks(self, c_id):
-        for mark in self.marks:
-            if mark.get_c_id() == c_id:
-                s_id = mark.get_s_id()
-                for student in self.students_info:
-                    if student.get_s_id() == s_id:
-                        print(f"\t\t[%s]    %-20s%s" % (student.get_s_id(), student.get_name(), mark.get_value()))
+    def printCourseMarks(self, course_id):
+        for mark in self.marks_list:
+            if mark.getCourseID() == course_id:
+                student_id = mark.getStudentID()
+                for student in self.students_info_list:
+                    if student.getStudentID() == student_id:
+                        print(f"%s %s %s" % (student.getStudentID(), student.getName(), mark.getStudentMark()))
 
-    def list_marks(self):
+    def printMarks(self):
         while True:
-            c_id = input("-> Enter the course ID you want to list marks: ")
-            if c_id is None:
-                print("***Error: Course ID cannot be empty***")
+            course_id = input("Enter the course ID you want to print marks: ")
+            if course_id is None:
+                print("Course ID cannot be empty")
             else:
                 break
-        if c_id in self.courses_id:
-            self.list_course_marks(c_id)
+        if course_id in self.courses_id:
+            self.printCourseMarks(course_id)
         else:
-            print("***Error: There exist no course with that ID***")
+            print("No course with that ID")
             return -1
 
     # Start the Student Mark Manager
-    def start_SMM(self):
-        print("Loading Student Mark manager...")
-        print("Choose your option: ")
-        print("[1] Input number of student and their information")
-        print("[2] Input number of courses and their information")
-        print("[3] Cancel")
+    def StartSMMS(self):
+        print("Your choice: ")
+        print("1 = Input number of student and their information")
+        print("2 = Input number of courses and their information")
+        print("3 = Exit")
         print()
-        choice1 = int(input("Enter the corresponding number: "))
+        myChoice = int(input("Enter the corresponding number: "))
         while True:
-            if choice1 == 1:
-                self.input_no_students()
-                for i in range(self.no_students):
+            if myChoice == 1:
+                self.getStudents()
+                for i in range(self.num_of_students):
                     print(f"Student #{i + 1}:")
-                    self.input_student_info()
-                while len(self.courses) == 0:
-                    print("[1] Input number of courses and their information")
-                    print("[2] Cancel")
-                    choice2 = int(
-                        input("Select your option by entering the digit: "))
-                    if choice2 == 1:
-                        self.input_no_courses()
-                        for i in range(self.no_courses):
+                    self.getStudentInfo()
+                while len(self.courses_list) == 0:
+                    print("1 = Input number of courses and their information")
+                    print("2 = Exit")
+                    myChoice2 = int(
+                        input("Enter your choice: "))
+                    if myChoice2 == 1:
+                        self.getCourses()
+                        for i in range(self.num_of_courses):
                             print(f"Course #{i + 1}:")
-                            self.input_course_info()
+                            self.getCourseInfo()
                         break
-                    elif choice2 == 2:
-                        print("Exiting!")
+                    elif myChoice2 == 2:
                         exit()
                     else:
-                        print("***Error: Invalid choice***")
+                        print("Invalid choice")
                 break
-            elif choice1 == 2:
-                self.input_no_courses()
-                for i in range(self.no_courses):
+            elif myChoice == 2:
+                self.getCourses()
+                for i in range(self.num_of_courses):
                     print(f"Course #{i + 1}:")
-                    self.input_course_info()
-                while len(self.students_info) == 0:
-                    print("\n[1] Input number of students and their information")
-                    print("[2] Cancel\n")
-                    choice2 = int(
-                        input("Select your option by entering the digit: "))
-                    if choice2 == 1:
-                        self.input_no_students()
-                        for i in range(self.no_students):
+                    self.getCourseInfo()
+                while len(self.students_info_list) == 0:
+                    print("\n1 = Input number of students and their information")
+                    print("2 = Exit\n")
+                    myChoice2 = int(
+                        input("Enter your choice: "))
+                    if myChoice2 == 1:
+                        self.getStudents()
+                        for i in range(self.num_of_students):
                             print(f"Student #{i + 1}:")
-                            self.input_student_info()
+                            self.getStudentInfo()
                         break
-                    elif choice2 == 2:
-                        print("Exiting!")
+                    elif myChoice2 == 2:
+
                         exit()
                     else:
-                        print("***Error: Invalid choice***")
+                        print("Invalid choice")
                         break
                 break
-            elif choice1 == 3:
-                print("Exiting!")
+            elif myChoice == 3:
                 exit()
             else:
-                print("***Error: Invalid choice***")
+                print("Invalid choice")
                 exit()
-        while len(self.marks) < len(self.students_info) * len(self.courses):
-            print("[1] Input mark for a course")
-            print("[2] List students")
-            print("[3] List courses")
-            print("[4] Cancel")
-            choice3 = int(input("Select your option by entering the digit: "))
-            if choice3 == 1:
-                self.input_mark()
-            elif choice3 == 2:
-                self.list_students()
-            elif choice3 == 3:
-                self.list_courses()
-            elif choice3 == 4:
-                print("Exiting!")
+        while len(self.marks_list) < len(self.students_info_list) * len(self.courses):
+            print("1 = Input mark for a course")
+            print("2 = Print students")
+            print("3 = Print courses")
+            print("4 = Exit")
+            myChoice3 = int(input("Enter your choice: "))
+            if myChoice3 == 1:
+                self.getMark()
+            elif myChoice3 == 2:
+                self.printStudents()
+            elif myChoice3 == 3:
+                self.printCourses()
+            elif myChoice3 == 4:
                 exit()
             else:
-                print("***Error: invalid choice***")
+                print("Invalid choice!")
         while True:
-            print("[1] List students")
-            print("[2] List courses")
-            print("[3] Show marks of a course")
-            print("[4] Cancel")
+            print("1 = Print students")
+            print("2 = Print courses")
+            print("3 = Print marks of a course")
+            print("4 = Exit")
             print()
-            choice3 = int(input("Select your option by entering the digit: "))
-            if choice3 == 1:
-                self.list_students()
-            elif choice3 == 2:
-                self.list_courses()
-            elif choice3 == 3:
-                self.list_marks()
-            elif choice3 == 4:
-                print("Exiting!")
+            myChoice3 = int(input("Enter your choice: "))
+            if myChoice3 == 1:
+                self.printStudents()
+            elif myChoice3 == 2:
+                self.printCourses()
+            elif myChoice3 == 3:
+                self.printMarks()
+            elif myChoice3 == 4:
                 exit()
             else:
-                print("***Error: invalid choice***")
+                print("Invalid choice!")
 
-
-if __name__ == '__main__':
-    e = SMM()
-    e.start_SMM()
+systemObj = StudentMarkManagementSystem()
+systemObj.StartSMMS()
