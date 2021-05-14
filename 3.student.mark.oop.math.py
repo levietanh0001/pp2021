@@ -5,7 +5,9 @@ import numpy as np
 screen = curses.initscr()
 
 def PrintError(error):
-    screen.addstr("\nError: " + error, curses.color_pair(0) | curses.A_BOLD | curses.A_UNDERLINE)
+    curses.start_color()
+    curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+    screen.addstr("\nError: " + error, curses.color_pair(1) | curses.A_BOLD)
     screen.refresh()
     curses.napms(1000)
     screen.clear()
@@ -133,7 +135,7 @@ class StudentMarkManagementSystem:
 
             screen.addstr(f"Added student {name}!")
             screen.refresh()
-            curses.napms(1000)
+            curses.napms(500)
             InitStudent(self, student_id, name, dob)
 
     def getCourseID(self):
@@ -170,7 +172,7 @@ class StudentMarkManagementSystem:
 
             screen.addstr(f"Added course {name}!")
             screen.refresh()
-            curses.napms(1000)
+            curses.napms(500)
 
             InitCourse(self, course_id, name, credit)
 
@@ -279,8 +281,7 @@ class StudentMarkManagementSystem:
         for student in self.students_info_list:
             if student.getStudentID() == sid:
                 self.computeStudentGPA(sid)
-
-                screen.addstr("%s GPA:%.1f" % (student.getName(), student.getGPA()))
+                screen.addstr("Student %s has GPA = %.1f" % (student.getName(), student.getGPA()))
                 screen.refresh()
                 break
 
@@ -293,29 +294,25 @@ class StudentMarkManagementSystem:
             new_student_list.append(new_student)
 
         dtype = [('sid', 'S10'), ('name', 'S30'), ('gpa', float)]
-        np_student_list = np.array(new_student_list, dtype=dtype)
-
-        sorted_student_list = np.sort(np_student_list, order='gpa')[::-1]
+        numpy_student_list = np.array(new_student_list, dtype=dtype)
+        sorted_student_list = np.sort(numpy_student_list, order='gpa')[::-1]
 
         new_sorted_student_list = []
         for student in sorted_student_list:
             decoded_student = (student[0].decode(), student[1].decode(), student[2])
             new_sorted_student_list.append(decoded_student)
         for student in new_sorted_student_list:
-            screen.addstr("%s %s %s\n" % (student[0], student[1], student[2]))
+            screen.addstr("ID = %s, %s, GPA = %s\n" % (student[0], student[1], student[2]))
             screen.refresh()
 
     def startSMMS(self):
         curses.start_color()
-        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_WHITE)
         num_rows, num_cols = screen.getmaxyx()
 
         def printMid(message):
-            middle_row = int(num_rows / 2)
-            half_length_of_message = int(len(message) / 2)
-            middle_column = int(num_cols / 2)
-            x_position = middle_column - half_length_of_message
-            screen.addstr(middle_row, x_position, message)
+            mid_row = int(num_rows / 2)
+            mid_col = int(num_cols / 3)
+            screen.addstr(mid_row, mid_col, message)
             screen.refresh()
 
         screen.refresh()
@@ -331,7 +328,6 @@ class StudentMarkManagementSystem:
             screen.addstr(" . ")
             screen.refresh()
             curses.napms(300)
-        curses.napms(1500)
         screen.clear()
         screen.refresh()
 
@@ -376,10 +372,6 @@ class StudentMarkManagementSystem:
                         break
                     elif myChoice2 == 2:
                         screen.clear()
-
-                        printMid("Returning to menu!")
-                        curses.napms(1000)
-
                         curses.endwin()
                         exit()
                     else:
@@ -419,10 +411,6 @@ class StudentMarkManagementSystem:
                         break
                     elif myChoice2 == 2:
                         screen.clear()
-
-                        printMid("Returning to menu!")
-                        curses.napms(1000)
-
                         curses.endwin()
                         exit()
                     else:
@@ -431,10 +419,6 @@ class StudentMarkManagementSystem:
                 break
             elif myChoice == 3:
                 screen.clear()
-
-                printMid("Returning to menu!")
-                curses.napms(1000)
-
                 curses.endwin()
                 exit()
             else:
@@ -467,10 +451,6 @@ class StudentMarkManagementSystem:
 
             elif myChoice3 == 4:
                 screen.clear()
-
-                printMid("Returning to menu!")
-                curses.napms(1000)
-
                 curses.endwin()
                 exit()
             else:
@@ -493,32 +473,28 @@ class StudentMarkManagementSystem:
             if myChoice4 == 1:
 
                 self.printStudents()
-                curses.napms(self.num_of_students * 1000)
+                curses.napms(self.num_of_students * 1500)
 
             elif myChoice4 == 2:
 
                 self.printCourses()
-                curses.napms(self.num_of_courses * 1000)
+                curses.napms(self.num_of_courses * 1500)
 
             elif myChoice4 == 3:
                 self.printMarks()
-                curses.napms(self.num_of_students * 1000)
+                curses.napms(self.num_of_students * 1500)
 
             elif myChoice4 == 4:
                 self.computeGPA()
                 curses.napms(1000)
 
             elif myChoice4 == 5:
-
                 self.printSortedList()
-                curses.napms(self.num_of_students * 1000)
+                curses.napms(self.num_of_students * 1500)
 
             elif myChoice4 == 6:
                 screen.clear()
-
-                printMid("Returning to menu!")
-                curses.napms(1000)
-
+                printMid("Closing application!")
                 curses.endwin()
                 exit()
             else:
