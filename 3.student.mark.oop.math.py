@@ -315,13 +315,8 @@ class StudentMarkManagementSystem:
             half_length_of_message = int(len(message) / 2)
             middle_column = int(num_cols / 2)
             x_position = middle_column - half_length_of_message
-
-            if message == "--- Choose an option from the MENU ---":
-                screen.addstr(middle_row, x_position, message, curses.A_BOLD | curses.A_BLINK)
-                screen.refresh()
-            else:
-                screen.addstr(middle_row, x_position, message)
-                screen.refresh()
+            screen.addstr(middle_row, x_position, message)
+            screen.refresh()
 
         screen.refresh()
         printMid("Loading Student Mark Management System")
