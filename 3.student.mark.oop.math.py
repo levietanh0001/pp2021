@@ -2,8 +2,10 @@ import curses
 import math
 import numpy as np
 
+screen = curses.initscr()
+
 def PrintError(error):
-    screen.addstr("Error: " + error + curses.color_pair(1) | curses.A_BOLD | curses.A_UNDERLINE)
+    screen.addstr("\nError: " + error, curses.color_pair(0) | curses.A_BOLD | curses.A_UNDERLINE)
     screen.refresh()
     curses.napms(1000)
     screen.clear()
@@ -104,11 +106,11 @@ class StudentMarkManagementSystem:
             screen.refresh()
             student_id = screen.getstr().decode()
             if student_id is None:
-                PrintError("Student ID cannot be null")
+                PrintError("Student ID cannot be null!")
             else:
                 break
         if student_id in self.students_id_list:
-            PrintError("Student ID already exists")
+            PrintError("Student ID already exists!")
             exit()
         else:
             while True:
@@ -116,7 +118,7 @@ class StudentMarkManagementSystem:
                 screen.refresh()
                 name = screen.getstr().decode()
                 if name is None:
-                    PrintError("Student name cannot be null")
+                    PrintError("Student name cannot be null!")
                 else:
                     break
             while True:
@@ -124,16 +126,15 @@ class StudentMarkManagementSystem:
                 screen.refresh()
                 dob = screen.getstr().decode()
                 if dob is None:
-                    PrintError("Student dob/ date of birth cannot be null")
+                    PrintError("Student dob/ date of birth cannot be null!")
                 else:
                     break
 
-            curses.curs_set(0)
+
             screen.addstr(f"Added student {name}!")
             screen.refresh()
             curses.napms(1000)
-            curses.curs_set(1)
-            Student(self, student_id, name, dob)
+            InitStudent(self, student_id, name, dob)
 
     def getCourseID(self):
         while True:
@@ -141,11 +142,11 @@ class StudentMarkManagementSystem:
             screen.refresh()
             course_id = screen.getstr().decode()
             if course_id is None:
-                PrintError("Course ID cannot be null")
+                PrintError("Course ID cannot be null!")
             else:
                 break
         if course_id in self.courses_id_list:
-            PrintError("Course ID already exists")
+            PrintError("Course ID already exists!")
             exit()
         else:
             while True:
@@ -153,7 +154,7 @@ class StudentMarkManagementSystem:
                 screen.refresh()
                 name = screen.getstr().decode()
                 if name is None:
-                    PrintError("Course name cannot be null")
+                    PrintError("Course name cannot be null!")
                 else:
                     break
             while True:
@@ -161,28 +162,27 @@ class StudentMarkManagementSystem:
                 screen.refresh()
                 credit = int(screen.getstr().decode())
                 if credit < 0:
-                    PrintError("Course credit can not be negative")
+                    PrintError("Course credit can not be negative!")
                 elif credit is None:
-                    PrintError("Course credit cannot be null")
+                    PrintError("Course credit cannot be null!")
                 else:
                     break
-            curses.curs_set(0)
-            screen.addstr(f"Added student {name}!")
+
+            screen.addstr(f"Added course {name}!")
             screen.refresh()
             curses.napms(1000)
-            curses.curs_set(1)
-            Course(self, course_id, name, credit)
+
+            InitCourse(self, course_id, name, credit)
 
     def getCourseMark(self, course_id):
-        for student in self.students_info:
+        for student in self.students_info_list:
             student_id = student.getStudentID()
             studentName = student.getName()
             screen.addstr(f"Enter marks for {studentName}: ")
             screen.refresh()
             value = float(screen.getstr().decode())
             value = math.floor(value * 10) / 10.0
-
-            Marks(self, student_id, course_id, value)
+            InitMark(self, student_id, course_id, value)
 
     def getMark(self):
         while True:
@@ -196,7 +196,7 @@ class StudentMarkManagementSystem:
                     Marked = False
                     for mark in self.marks_list:
                         if mark.getCourseID() == course_id:
-                            PrintError("You have already input marks for this course")
+                            PrintError("You have already input marks for this course!")
                             Marked = True
                             break
                     if not Marked:
@@ -205,7 +205,7 @@ class StudentMarkManagementSystem:
                     self.getCourseMark(course_id)
                 break
             elif course_id is None:
-                PrintError("Course ID cannot be null")
+                PrintError("Course ID cannot be null!")
             else:
                 PrintError("No course with such ID!")
                 return -1
@@ -220,15 +220,15 @@ class StudentMarkManagementSystem:
     def printStudents(self):
         screen.addstr("Printing all Students in class:")
         screen.refresh()
-        for student in self.students_info:
-            screen.addstr("%s %s %s" % (student.getStudentID(), student.getName(), student.get_dob()))
+        for student in self.students_info_list:
+            screen.addstr("%s %s %s" % (student.getStudentID(), student.getName(), student.getDOB()))
             screen.refresh()
 
     def printCourseMarks(self, course_id):
         for mark in self.marks_list:
             if mark.getCourseID() == course_id:
                 student_id = mark.getStudentID()
-                for student in self.students_info:
+                for student in self.students_info_list:
                     if student.getStudentID() == student_id:
                         screen.addstr(f"%s %s %s" % (student.getStudentID(), student.getName(), mark.getStudentMark()))
                         screen.refresh()
@@ -243,10 +243,10 @@ class StudentMarkManagementSystem:
             else:
                 break
         if course_id in self.courses_id_list:
-            curses.curs_set(0)
+
             self.printCourseMarks(course_id)
         else:
-            PrintError("There exist no course with that ID")
+            PrintError("There exist no course with that ID!")
             return -1
 
     def computeStudentGPA(self, sid):
@@ -257,11 +257,11 @@ class StudentMarkManagementSystem:
                 for course in self.courses_list:
                     if course.getCourseID() == mark.getCourseID():
                         marks_arr = np.append(marks_arr, mark.getStudentMark())
-                        course_credits = np.append(course_credits, course.get_credit())
+                        course_credits = np.append(course_credits, course.getCredit())
         gpa = np.dot(marks_arr, course_credits) / np.sum(course_credits)
         rounded_gpa = math.floor(gpa * 10) / 10.0
 
-        for student in self.students:
+        for student in self.students_info_list:
             if student.getStudentID() == sid:
                 student.setGPA(rounded_gpa)
 
@@ -271,15 +271,15 @@ class StudentMarkManagementSystem:
             screen.refresh()
             sid = screen.getstr().decode()
             if len(sid) == 0 or sid is None:
-                PrintError("Student ID cannot be null")
+                PrintError("Student ID cannot be null!")
             elif sid not in self.students_id_list:
-                PrintError("Student ID does not exist")
+                PrintError("Student ID does not exist!")
             else:
                 break
-        for student in self.students:
+        for student in self.students_info_list:
             if student.getStudentID() == sid:
                 self.computeStudentGPA(sid)
-                curses.curs_set(0)
+
                 screen.addstr("%s GPA:%.1f" % (student.getName(), student.getGPA()))
                 screen.refresh()
                 break
@@ -287,7 +287,7 @@ class StudentMarkManagementSystem:
     def printSortedList(self):
 
         new_student_list = []
-        for student in self.students:
+        for student in self.students_info_list:
             self.computeStudentGPA(student.getStudentID())
             new_student = (student.getStudentID(), student.getName(), student.getGPA())
             new_student_list.append(new_student)
@@ -317,31 +317,30 @@ class StudentMarkManagementSystem:
             x_position = middle_column - half_length_of_message
 
             if message == "--- Choose an option from the MENU ---":
-                screen.addstr(middle_row, x_position, message, curses.A_BOLD)
+                screen.addstr(middle_row, x_position, message, curses.A_BOLD | curses.A_BLINK)
                 screen.refresh()
             else:
                 screen.addstr(middle_row, x_position, message)
                 screen.refresh()
 
-        curses.curs_set(0)
         screen.refresh()
         printMid("Loading Student Mark Management System")
-        curses.napms(500)
         for i in range(3):
-            screen.addstr(".")
+            screen.addstr(" > ")
             screen.refresh()
-            curses.napms(500)
+            curses.napms(300)
         screen.clear()
         screen.refresh()
-        curses.napms(500)
-        printMid("Enter your choice: ")
-        screen.refresh()
-        curses.napms(2000)
+        printMid("Initilaizing STUDENT MARK MANAGEMENT SYSTEM")
+        for i in range(3):
+            screen.addstr(" . ")
+            screen.refresh()
+            curses.napms(300)
+        curses.napms(1500)
         screen.clear()
         screen.refresh()
 
-        curses.curs_set(1)
-        screen.addstr("\n1 = Enter students' details\n")
+        screen.addstr("\n1 = Enter students' details")
         screen.addstr("\n2 = Enter courses' details")
         screen.addstr("\n3 = Exit")
         screen.addstr("\nEnter your choice: ")
@@ -382,14 +381,14 @@ class StudentMarkManagementSystem:
                         break
                     elif myChoice2 == 2:
                         screen.clear()
-                        curses.curs_set(0)
-                        printMid("Exiting!")
+
+                        printMid("Returning to menu!")
                         curses.napms(1000)
-                        curses.curs_set(1)
+
                         curses.endwin()
                         exit()
                     else:
-                        PrintError("Invalid choice")
+                        PrintError("Invalid choice!")
                 break
             elif myChoice == 2:
                 screen.clear()
@@ -403,7 +402,7 @@ class StudentMarkManagementSystem:
                     self.getCourseID()
                     screen.clear()
                     screen.refresh()
-                while len(self.students_info) == 0:
+                while len(self.students_info_list) == 0:
                     screen.addstr("1 = Enter students' details")
                     screen.addstr("\n2 = Exit\n")
                     screen.refresh()
@@ -425,29 +424,29 @@ class StudentMarkManagementSystem:
                         break
                     elif myChoice2 == 2:
                         screen.clear()
-                        curses.curs_set(0)
-                        printMid("Exiting!")
+
+                        printMid("Returning to menu!")
                         curses.napms(1000)
-                        curses.curs_set(1)
+
                         curses.endwin()
                         exit()
                     else:
-                        PrintError("Invalid choice")
+                        PrintError("Invalid choice!")
                         break
                 break
             elif myChoice == 3:
                 screen.clear()
-                curses.curs_set(0)
-                printMid("Exiting!")
+
+                printMid("Returning to menu!")
                 curses.napms(1000)
-                curses.curs_set(1)
+
                 curses.endwin()
                 exit()
             else:
-                PrintError("Invalid choice")
+                PrintError("Invalid choice!")
                 curses.endwin()
                 exit()
-        while len(self.marks_list) < len(self.students_info) * len(self.courses_list):
+        while len(self.marks_list) < len(self.students_info_list) * len(self.courses_list):
             screen.clear()
             screen.refresh()
             screen.addstr("1 = Enter mark for a course")
@@ -462,34 +461,34 @@ class StudentMarkManagementSystem:
             if myChoice3 == 1:
                 self.getMark()
             elif myChoice3 == 2:
-                curses.curs_set(0)
+
                 self.printStudents()
                 curses.napms(self.num_of_students * 1000)
-                curses.curs_set(1)
+
             elif myChoice3 == 3:
-                curses.curs_set(0)
+
                 self.printCourses()
                 curses.napms(self.num_of_courses * 1000)
-                curses.curs_set(1)
+
             elif myChoice3 == 4:
                 screen.clear()
-                curses.curs_set(0)
-                printMid("Exiting!")
+
+                printMid("Returning to menu!")
                 curses.napms(1000)
-                curses.curs_set(1)
+
                 curses.endwin()
                 exit()
             else:
-                PrintError("Invalid choice")
+                PrintError("Invalid choice!")
         while True:
             screen.clear()
             screen.refresh()
-            screen.addstr("\n1 = Print all students")
+            screen.addstr("1 = Print all students")
             screen.addstr("\n2 = Print all courses")
             screen.addstr("\n3 = Print marks of a course")
             screen.addstr("\n4 = Compute GPA for a student")
             screen.addstr("\n5 = Print a sorted student list by GPA in descending order")
-            screen.addstr("\n6 = Exit\n")
+            screen.addstr("\n6 = Exit")
 
             screen.addstr("\nEnter your choice: ")
             screen.refresh()
@@ -497,41 +496,41 @@ class StudentMarkManagementSystem:
             screen.clear()
             screen.refresh()
             if myChoice4 == 1:
-                curses.curs_set(0)
+
                 self.printStudents()
                 curses.napms(self.num_of_students * 1000)
-                curses.curs_set(1)
+
             elif myChoice4 == 2:
-                curses.curs_set(0)
+
                 self.printCourses()
                 curses.napms(self.num_of_courses * 1000)
-                curses.curs_set(1)
+
             elif myChoice4 == 3:
                 self.printMarks()
                 curses.napms(self.num_of_students * 1000)
-                curses.curs_set(1)
+
             elif myChoice4 == 4:
                 self.computeGPA()
                 curses.napms(1000)
-                curses.curs_set(1)
+
             elif myChoice4 == 5:
-                curses.curs_set(0)
+
                 self.printSortedList()
                 curses.napms(self.num_of_students * 1000)
-                curses.curs_set(1)
+
             elif myChoice4 == 6:
                 screen.clear()
-                curses.curs_set(0)
-                printMid("Exiting!")
+
+                printMid("Returning to menu!")
                 curses.napms(1000)
-                curses.curs_set(1)
+
                 curses.endwin()
                 exit()
             else:
-                PrintError("Invalid choice")
+                PrintError("Invalid choice!")
 
     # main
 if __name__ == '__main__':
     screen = curses.initscr()
     systemObj = StudentMarkManagementSystem()
-    systemObj.StartSMMS()
+    systemObj.startSMMS()
