@@ -138,7 +138,7 @@ class StudentMarkManagementSystem:
             curses.napms(500)
             InitStudent(self, student_id, name, dob)
 
-    def getCourseID(self):
+    def getCourseInfo(self):
         while True:
             screen.addstr("\nEnter course ID: ")
             screen.refresh()
@@ -366,7 +366,7 @@ class StudentMarkManagementSystem:
                         for i in range(self.num_of_courses):
                             screen.addstr(f"Course #{i + 1}:")
                             screen.refresh()
-                            self.getCourseID()
+                            self.getCourseInfo()
                             screen.clear()
                             screen.refresh()
                         break
@@ -386,7 +386,7 @@ class StudentMarkManagementSystem:
                 for i in range(self.num_of_courses):
                     screen.addstr(f"Course #{i + 1}:")
                     screen.refresh()
-                    self.getCourseID()
+                    self.getCourseInfo()
                     screen.clear()
                     screen.refresh()
                 while len(self.students_info_list) == 0:
