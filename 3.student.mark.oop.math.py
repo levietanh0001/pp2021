@@ -216,7 +216,7 @@ class StudentMarkManagementSystem:
         screen.addstr("Printing all courses: ")
         screen.refresh()
         for course in self.courses_list:
-            screen.addstr("%s %s" % (course.getCourseID(), course.getName()))
+            screen.addstr("ID = %s, %s" % (course.getCourseID(), course.getName()))
             screen.refresh()
 
     def printStudents(self):
