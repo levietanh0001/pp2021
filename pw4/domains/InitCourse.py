@@ -13,4 +13,4 @@ class InitCourse:
         return self.stdName
 
     def getCredit(self):
-        return  self.credit
+        return self.credit

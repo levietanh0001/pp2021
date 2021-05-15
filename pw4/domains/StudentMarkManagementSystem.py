@@ -66,7 +66,7 @@ class StudentMarkManagementSystem:
             curses.napms(500)
             InitStudent(self, student_id, name, dob)
 
-    def getCourseID(self):
+    def getCourseInfo(self):
         while True:
             screen.addstr("\nEnter course ID: ")
             screen.refresh()

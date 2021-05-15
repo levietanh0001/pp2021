@@ -1,5 +1,5 @@
 class InitStudent:
-    def __init__(self, StudentMarkManagementSystem, student_id, name, date_of_birth):
+    def __init__(self, StudentMarkManagementSystem, student_id, name, date_of_birth, gpa=0):
         self.stdID = student_id
         self.stdName = name
         self.dob = date_of_birth
