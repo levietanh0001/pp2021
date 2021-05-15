@@ -9,14 +9,14 @@ class Input:
     def __init__(self, screen):
         self.screen = screen
 
-    # Define a method to print error
     def PrintError(self, error):
-        self.screen.addstr("\nError: " + error + ".", curses.color_pair(1) |
-                      curses.A_BOLD | curses.A_UNDERLINE | curses.A_BLINK)
-        self.screen.refresh()
-        curses.napms(3000)
-        self.screen.clear()
-        self.screen.refresh()
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+        screen.addstr("\nError: " + error, curses.color_pair(1) | curses.A_BOLD)
+        screen.refresh()
+        curses.napms(1000)
+        screen.clear()
+        screen.refresh()
 
     def PrintError(self, error):
         curses.start_color()
