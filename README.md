@@ -3,7 +3,7 @@
 * Student ID: BI9-035 </br>
 * Group Number: 16 </br>
 * Group Name: Try Hard </br> 
-* Group Members: 5 in total </br>
+* Group Members: 5 in total
 | Le Viet Anh  | Vu Tuan Phuong Nam | Do Thanh Dat |   |   |
 |--------------|--------------------|--------------|---|---|
 | Tran Bao Huy | Nguyen Tu Tung     |              |   |   |
