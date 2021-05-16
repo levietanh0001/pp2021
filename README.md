@@ -8,6 +8,6 @@
 * Group Members: 
 </br>
 <!-- Tables -->
-| Le Viet Anh  | Vu Tuan Phuong Nam | Do Thanh Dat |---|---|
-|--------------|--------------------|--------------|---|---|
-| Tran Bao Huy | Nguyen Tu Tung     |--------------|---|---|
+Le Viet Anh | Vu Tuan Phuong Nam | Do Thanh Dat
+--- | --- | --- |
+Tran Bao Huy | Nguyen Tu Tung | 
