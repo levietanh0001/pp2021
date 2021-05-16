@@ -5,6 +5,7 @@
 * Group Name: Try Hard </br> 
 * Group Members: 5 in total </br>
 | Le Viet Anh  | Vu Tuan Phuong Nam | Do Thanh Dat |
+| ------------ | ------------------ | ------------ |
 | Tran Bao Huy | Nguyen Tu Tung     |              |
 </br>
 * Group Project: Library Management System </br>
