@@ -11,7 +11,14 @@
        * Do Thanh Dat
        * Vu Tuan Phuong Nam
        * Tran Bao Huy
-       * Nguyen Tu Tung  
+       * Nguyen Tu Tung </br> 
 '''
+ 
+```python
+s = "Python syntax highlighting"
+print s
+```
+ 
+
 
 
