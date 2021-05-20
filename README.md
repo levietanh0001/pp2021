@@ -44,6 +44,6 @@ Group Project: Library Information Management System (#13)
   
 </table>
 
-
+<img src="https://pluspng.com/img-png/python-logo-png-big-image-png-2400.png" alt="Python Logo">
 
 
