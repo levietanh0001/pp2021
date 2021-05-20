@@ -5,6 +5,12 @@ Student Name: Le Viet Anh
 Student ID: BI9-035
 ```
 # About Group
+```python
+Group Number: 16
+Group Name: Try Hard 
+Group Project: Library Information Management System (#13)
+```
+> Group Members
 <table>
   <tr>
     <th> Name </th>
