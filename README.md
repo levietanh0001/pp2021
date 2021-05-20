@@ -3,16 +3,15 @@
 * Student ID: BI9-035 </br>
 ---
 '''bash
-* Group Number: 16 </br>
-* Group Name: Try Hard </br> 
-* Group Project: Library Management System </br>
-* Group Members: 
-    * Le Viet Anh
-    * Do Thanh Dat
-    * Vu Tuan Phuong Nam
-    * Tran Bao Huy
-    * Nguyen Tu Tung  
-</br>
+   * Group Number: 16 </br>
+   * Group Name: Try Hard </br> 
+   * Group Project: Library Management System </br>
+   * Group Members: 
+       * Le Viet Anh
+       * Do Thanh Dat
+       * Vu Tuan Phuong Nam
+       * Tran Bao Huy
+       * Nguyen Tu Tung  
 '''
 
 
