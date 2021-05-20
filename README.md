@@ -15,8 +15,7 @@
 '''
  
 ```python
-s = "Python syntax highlighting"
-print s
+Something not in python
 ```
  
 
